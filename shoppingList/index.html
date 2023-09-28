@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Shopping List</title>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <img src="images/note.png" alt="notepad">
+            <h1>Shopping List</h1>
+        </header>
+
+        <form action="/" id="item-form">
+            <div class="input-wrapper">
+                <input type="text" name="item" id="item-input" class="form-input" placeholder="Enter item">
+            </div>
+            <div class="input-wrapper">
+                <button type="submit" class="btn">
+                    <i class="fa-solid fa-plus"></i>Add item
+                </button>
+            </div>
+        </form>
+
+        <div class="filter">
+            <input type="text" class="input-filter" id="filter" placeholder="filter items">
+        </div>
+
+        <ul id="item-list" class="list-items">
+            <li>
+                Apples
+                <button class="remove-item btn-link text-red">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </li>
+            <li>
+                Oranges
+                <button class="remove-item btn-link text-red">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </li>
+            <li>
+                Mangoes
+                <button class="remove-item btn-link text-red">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </li>
+            <li>
+                Passion
+                <button class="remove-item btn-link text-red">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </li>
+        </ul>
+
+        <button id="clear" class="btn-clear">Clear All</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
