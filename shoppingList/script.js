@@ -2,6 +2,8 @@
 const itemForm = document.getElementById('item-form');
 const itemInput = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
+const itemFilter = document.getElementById('filter');
+const clearAll = document.getElementById('clear');
 
 // Adding items to list
 const addItem = (ev) => {
@@ -24,6 +26,8 @@ const addItem = (ev) => {
 
   itemList.appendChild(li); //Adding the list item to the DOM
 
+  resetPage();
+
   itemInput.value = ''; //Clear the input for the next item
 };
 
@@ -43,5 +47,58 @@ const createIcon = (classes) => {
   return icon;
 };
 
+// Remove single items (Using event delegation)
+const removeItem = (ev) => {
+  if (ev.target.parentElement.classList.contains('remove-item')) {
+    if (confirm('Are you sure?')) {
+      ev.target.parentElement.parentElement.remove();
+
+      resetPage();
+    }
+  }
+};
+
+// Remove all items
+const clearItems = (ev) => {
+  while (itemList.firstChild) {
+    itemList.removeChild(itemList.firstChild);
+  }
+  resetPage();
+};
+
+// Filtering items in the list
+const filterItems = (ev) => {
+  const items = itemList.querySelectorAll('li');
+  const text = ev.target.value.toLowerCase();
+
+  items.forEach((item) => {
+    const itemName = item.firstChild.textContent.toLowerCase();
+
+    if (itemName.indexOf(text) !== -1) {
+      item.style.display = 'flex';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+};
+
+// Check if filter input and clear button are present
+const resetPage = () => {
+  const items = itemList.querySelectorAll('li');
+  //   console.log(items);
+  if (items.length === 0) {
+    itemFilter.style.display = 'none';
+    clearAll.style.display = 'none';
+  } else {
+    itemFilter.style.display = 'block';
+    clearAll.style.display = 'block';
+  }
+};
+
 // Event Listeners
 itemForm.addEventListener('submit', addItem); //(event listener put in an iife  i.e refactoring)
+itemList.addEventListener('click', removeItem);
+clearAll.addEventListener('click', clearItems);
+itemFilter.addEventListener('input', filterItems);
+
+resetPage();
