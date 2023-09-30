@@ -3,12 +3,13 @@ const itemForm = document.getElementById('item-form');
 const itemInput = document.getElementById('item-input');
 const itemList = document.getElementById('item-list');
 const itemFilter = document.getElementById('filter');
+const itemBtn = document.getElementById('item-btn');
 const clearAll = document.getElementById('clear');
+let isEditMode = false;
 
 // Adding items to list
-const addItem = (ev) => {
-  ev.preventDefault(); // don't want the form to submit to the file
-
+const onAddItemSubmit = (ev) => {
+  ev.preventDefault();
   const insertedItem = itemInput.value;
 
   // Validating the item
@@ -17,18 +18,16 @@ const addItem = (ev) => {
     return;
   }
 
-  //Create a list item
-  const li = document.createElement('li');
-  li.appendChild(document.createTextNode(insertedItem));
+  // Add items the DOM
+  addItemToDom(insertedItem);
 
-  const button = createButton('remove-item btn-link text-red');
-  li.appendChild(button);
-
-  itemList.appendChild(li); //Adding the list item to the DOM
+  // Add to local storage
+  addItemToStorage(insertedItem);
 
   resetPage();
 
-  itemInput.value = ''; //Clear the input for the next item
+  //Clear the input for the next item
+  itemInput.value = '';
 };
 
 // Create button function
@@ -47,15 +46,88 @@ const createIcon = (classes) => {
   return icon;
 };
 
-// Remove single items (Using event delegation)
-const removeItem = (ev) => {
-  if (ev.target.parentElement.classList.contains('remove-item')) {
-    if (confirm('Are you sure?')) {
-      ev.target.parentElement.parentElement.remove();
+// Add items to DOM (takes in text from the form )
+const addItemToDom = (item) => {
+  //Create a list item
+  const li = document.createElement('li');
+  li.appendChild(document.createTextNode(item));
 
-      resetPage();
-    }
+  const button = createButton('remove-item btn-link text-red');
+  li.appendChild(button);
+
+  //Adding the list item to the DOM
+  itemList.appendChild(li);
+};
+
+// Add items to local storage
+const addItemToStorage = (item) => {
+  const storedItems = itemsFromStorage();
+
+  storedItems.push(item);
+
+  //Set to local storage then array to JSON string
+  localStorage.setItem('items', JSON.stringify(storedItems));
+};
+
+// Get items from storage
+const itemsFromStorage = () => {
+  let storedItems;
+
+  if (localStorage.getItem('items') === null) {
+    storedItems = [];
+  } else {
+    storedItems = JSON.parse(localStorage.getItem('items'));
   }
+
+  return storedItems;
+};
+
+// display items in local storage
+const displayItems = () => {
+  const storedItems = itemsFromStorage();
+  storedItems.forEach((item) => addItemToDom(item));
+
+  resetPage();
+};
+
+// Remove items from DOM and Storage
+const onItemClick = (ev) => {
+  if (ev.target.parentElement.classList.contains('remove-item')) {
+    removeItem(ev.target.parentElement.parentElement);
+  } else {
+    toEditMode(ev.target);
+  }
+};
+
+const toEditMode = (item) => {
+  isEditMode = true;
+
+  itemList.querySelectorAll('li').forEach((i) => (i.style.color = '#333'));
+
+  item.style.color = '#ccc';
+  itemBtn.innerHTML = '<i class="fa-solid fa-pen"></i>  Update Item';
+  itemBtn.style.backgroundColor = '#FC5D3D';
+  itemInput.value = item.textContent;
+};
+
+// Remove single items (Using event delegation)
+const removeItem = (item) => {
+  if (confirm('Are you sure?')) {
+    // Remove item from DOM
+    item.remove();
+
+    // Remove items from local storage
+    removeFromStorage(item.textContent);
+  }
+};
+
+const removeFromStorage = (item) => {
+  let storedItems = itemsFromStorage();
+
+  storedItems = storedItems.filter((i) => i !== item);
+
+  // Reset items in local storage
+  localStorage.setItem('items', JSON.stringify(storedItems));
 };
 
 // Remove all items
@@ -63,6 +135,10 @@ const clearItems = (ev) => {
   while (itemList.firstChild) {
     itemList.removeChild(itemList.firstChild);
   }
+
+  // Clear from local storage using the 'items' key
+  localStorage.removeItem('items');
+
   resetPage();
 };
 
@@ -85,7 +161,6 @@ const filterItems = (ev) => {
 // Check if filter input and clear button are present
 const resetPage = () => {
   const items = itemList.querySelectorAll('li');
-  //   console.log(items);
   if (items.length === 0) {
     itemFilter.style.display = 'none';
     clearAll.style.display = 'none';
@@ -96,9 +171,10 @@ const resetPage = () => {
 };
 
 // Event Listeners
-itemForm.addEventListener('submit', addItem); //(event listener put in an iife  i.e refactoring)
-itemList.addEventListener('click', removeItem);
+itemForm.addEventListener('submit', onAddItemSubmit); //(Event handler as it listens to two events from two methods)
+itemList.addEventListener('click', onItemClick);
 clearAll.addEventListener('click', clearItems);
 itemFilter.addEventListener('input', filterItems);
+document.addEventListener('DOMContentLoaded', displayItems);
 
 resetPage();
