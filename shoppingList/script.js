@@ -18,6 +18,16 @@ const onAddItemSubmit = (ev) => {
     return;
   }
 
+  // Check for edit mode ,take the item we are editing, remove from local storage , remove from the dom then just add the new item
+  if (isEditMode) {
+    const editingItem = itemList.querySelector('.edit-mode');
+
+    removeFromStorage(editingItem.textContent);
+    editingItem.classList.remove('.edit-mode');
+    editingItem.remove();
+    isEditMode = false;
+  }
+
   // Add items the DOM
   addItemToDom(insertedItem);
 
@@ -99,12 +109,16 @@ const onItemClick = (ev) => {
   }
 };
 
+// Click on item and switch it to editing
 const toEditMode = (item) => {
   isEditMode = true;
 
-  itemList.querySelectorAll('li').forEach((i) => (i.style.color = '#333'));
+  itemList
+    .querySelectorAll('li')
+    .forEach((i) => i.classList.remove('edit-mode'));
 
-  item.style.color = '#ccc';
+  // item.style.color = '#ccc';
+  item.classList.add('edit-mode');
   itemBtn.innerHTML = '<i class="fa-solid fa-pen"></i>  Update Item';
   itemBtn.style.backgroundColor = '#FC5D3D';
   itemInput.value = item.textContent;
@@ -160,6 +174,8 @@ const filterItems = (ev) => {
 
 // Check if filter input and clear button are present
 const resetPage = () => {
+  itemInput.value = '';
+
   const items = itemList.querySelectorAll('li');
   if (items.length === 0) {
     itemFilter.style.display = 'none';
@@ -168,6 +184,11 @@ const resetPage = () => {
     itemFilter.style.display = 'block';
     clearAll.style.display = 'block';
   }
+
+  itemBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add item';
+  itemBtn.style.backgroundColor = '#333';
+
+  isEditMode = false;
 };
 
 // Event Listeners
