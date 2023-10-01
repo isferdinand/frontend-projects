@@ -21,11 +21,19 @@ const onAddItemSubmit = (ev) => {
   // Check for edit mode ,take the item we are editing, remove from local storage , remove from the dom then just add the new item
   if (isEditMode) {
     const editingItem = itemList.querySelector('.edit-mode');
+    if (checkIfExist(editingItem)) {
+      alert('Item already exists');
+    }
 
     removeFromStorage(editingItem.textContent);
     editingItem.classList.remove('.edit-mode');
     editingItem.remove();
     isEditMode = false;
+  } else {
+    if (checkIfExist(insertedItem)) {
+      alert('Item already exists');
+      return;
+    }
   }
 
   // Add items the DOM
@@ -109,6 +117,10 @@ const onItemClick = (ev) => {
   }
 };
 
+const checkIfExist = (item) => {
+  const storedItems = itemsFromStorage();
+  return storedItems.includes(item);
+};
 // Click on item and switch it to editing
 const toEditMode = (item) => {
   isEditMode = true;
