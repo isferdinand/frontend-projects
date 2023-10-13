@@ -1,12 +1,11 @@
-// const plus = document.querySelector('.question');
-const contents = document.getElementsByClassName('content');
+const contents = document.querySelectorAll('.content');
 
-const showAnswer = () => {
-  for (const content in contents) {
-    contents[content].addEventListener('click', () => {
-      this.classList.toggle('active');
+const displayAnswer = () => {
+  contents.forEach((content) => {
+    content.addEventListener('click', (e) => {
+      e.target.parentElement.classList.toggle('active');
     });
-  }
+  });
 };
 
-showAnswer();
+displayAnswer();
