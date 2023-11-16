@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Muli&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #9907d3;
+    font-family: 'Muli', 'sans-serif';
+    line-height: 1.4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.search {
+    position: relative;
+    height: 50px;
+}
+
+.search .search-bar {
+    background-color: #fff;
+    border: none;
+    font-size: 18px;
+    padding: 0.7rem;
+    width: 50px;
+    height: 50px;
+    transition: width 0.4s ease;
+}
+
+
+.btn {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    transition: transform 0.4s ease;
+}
+
+.btn:focus,
+input:focus {
+    outline: none;
+}
+
+.search.active .search-bar {
+    width: 200px;
+}
+
+.search.active .btn {
+    transform: translateX(190px);
+}
