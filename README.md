@@ -4,6 +4,10 @@ The learning process.
 Building mini projects to improve and understand problem solving
 The projects are in HTML,CSS and Vanilla JS (basically the frontend languages)
 
-Started a 50 day code in buidling these projects.This basically means doing 1 project a day in 50 days.
-Begin it on 13th Nov 2023.
-One project commit per day.
+Guide:
+No Tutorials code
+Replicate projects from scratch.( To enhance the problem solving abilties)
+If tutorials (view after project done). To see the other way of getting to the destination.
+
+The Projects:
+The projects are ranked from beginner, intermediate to advanced. This repo cover the beginner projects and partly intermediate due to the few lines of code required. Advanced projects will be on their own repos.
