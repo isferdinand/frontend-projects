@@ -17,7 +17,7 @@ body {
 header {
     display: flex;
     align-items: center;
-    justify-content: left;
+    justify-content: flex-start;
     margin: 0.7rem 0;
 }
 
@@ -42,7 +42,7 @@ form {
     border-radius: 5px;
     padding: 0.4rem 0.3rem;
     margin-bottom: 0.4rem;
-    width: 70%;
+    width: 80%;
     outline: none;
 }
 
