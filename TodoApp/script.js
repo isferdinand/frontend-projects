@@ -4,16 +4,26 @@ const todoItems = document.getElementById('todo-items');
 const checked = document.getElementById('done');
 const clearAll = document.getElementById('clear-todos');
 
-function addTodoSubmit(e) {
+function displayTodos() {
+  const storedTodos = todosInStorage();
+  storedTodos.forEach((todo) => {
+    addToDom(todo);
+  });
+}
+
+function addTodoOnSubmit(e) {
   e.preventDefault();
 
   let newTodo = todoInput.value;
 
   if (newTodo === '') {
     alert('Insert a Todo!');
+    return;
   }
 
   addToDom(newTodo);
+
+  addToLocalStorage(newTodo);
 
   // clear the input
   todoInput.value = '';
@@ -30,16 +40,15 @@ function addToDom(todo) {
     </button>`;
 
   todoItems.appendChild(li);
+  onLoad();
 }
 
 function completedTodo(e) {
-  //   console.log(e.target.checked);
   if (e.target.checked) {
-    e.target.nextElementSibling.style.textDecoration = 'line-through';
+    e.target.nextElementSibling.classList.add('checked');
   } else {
-    e.target.nextElementSibling.style.textDecoration = 'none';
+    e.target.nextElementSibling.classList.remove('checked');
   }
-  //   console.log(e.target.nextSibling);
 }
 
 function removeFromDom(e) {
@@ -60,7 +69,41 @@ function clearTodos() {
   });
 }
 
-todoForm.addEventListener('submit', addTodoSubmit);
+function onLoad() {
+  const todos = document.querySelectorAll('li');
+  if (todos.length === 0) {
+    clearAll.style.display = 'none';
+  } else {
+    clearAll.style.display = 'block';
+  }
+}
+
+function addToLocalStorage(todo) {
+  const storedTodos = todosInStorage();
+
+  //Add items to storage
+  storedTodos.push(todo);
+
+  //convert back to string
+  localStorage.setItem('todos', JSON.stringify(storedTodos));
+}
+
+function todosInStorage() {
+  let storedTodos;
+
+  if (localStorage.getItem('todos') === null) {
+    storedTodos = [];
+  } else {
+    storedTodos = JSON.parse(localStorage.getItem('todos'));
+  }
+
+  return storedTodos;
+}
+
+todoForm.addEventListener('submit', addTodoOnSubmit);
 todoItems.addEventListener('change', completedTodo);
 todoItems.addEventListener('click', removeFromDom);
 clearAll.addEventListener('click', clearTodos);
+document.addEventListener('DOMContentLoaded', displayTodos);
+
+onLoad();
