@@ -35,7 +35,7 @@ function addToDom(todo) {
   li.innerHTML = `
     <input type="checkbox" name="todo-check" id="todo-check">
     <span>${todo}</span>
-    <button class="remove-item btn text-red">
+    <button class="remove-todo btn text-red">
         <i class="fa-solid fa-xmark"></i>
     </button>`;
 
@@ -60,6 +60,8 @@ function removeFromDom(e) {
 function removeTodo(todo) {
   if (confirm('Are your sure?')) {
     todo.remove();
+
+    removeFromLocalStorage(todo);
   }
 }
 
@@ -85,6 +87,18 @@ function addToLocalStorage(todo) {
   storedTodos.push(todo);
 
   //convert back to string
+  localStorage.setItem('todos', JSON.stringify(storedTodos));
+}
+
+function removeFromLocalStorage(todo) {
+  let storedTodos = todosInStorage();
+
+  storedTodos.forEach((td, index) => {
+    if (td === todo.childNodes[3].textContent) {
+      storedTodos.splice(index, 1);
+    }
+  });
+
   localStorage.setItem('todos', JSON.stringify(storedTodos));
 }
 
