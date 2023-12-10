@@ -69,6 +69,9 @@ function clearTodos() {
   Array(todoItems).forEach((todo) => {
     todo.remove();
   });
+
+  localStorage.removeItem('todos');
+  onLoad();
 }
 
 function onLoad() {
@@ -98,7 +101,7 @@ function removeFromLocalStorage(todo) {
       storedTodos.splice(index, 1);
     }
   });
-
+  v;
   localStorage.setItem('todos', JSON.stringify(storedTodos));
 }
 
