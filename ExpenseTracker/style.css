@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap');
+
+:root {
+    --clr-primary: #F79225;
+    --clr-secondary: #EC2841;
+    --clr-dark: #333;
+    --clr-light: #f4f4f4;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--clr-light);
+    color: var(--clr-dark);
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.4;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+header h1 {
+    margin-left: 1rem;
+}
+
+img {
+    max-width: 100%;
+    width: 100px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+#form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas:
+        "type name"
+        "date amount"
+        "submit submit"
+    ;
+    margin-bottom: 1rem;
+    gap: 0.7rem 1rem;
+}
+
+label[for="type"] {
+    grid-area: type;
+}
+
+label[for="name"] {
+    grid-area: name;
+}
+
+label[for="date"] {
+    grid-area: date;
+}
+
+button[type="submit"] {
+    grid-area: submit;
+    align-self: center;
+    justify-self: center;
+}
+
+#type {
+    border-radius: 5px;
+    font-size: 1.1rem;
+    padding: 0.4rem 0.2rem;
+    width: 100%;
+}
+
+label {
+    font-weight: bold;
+    padding: 0.5rem;
+}
+
+input {
+    font-size: 1.1rem;
+    border-radius: 5px;
+    padding: 0.4rem 0.2rem;
+    width: 100%;
+}
+
+.btn {
+    border: 0;
+    border-radius: 10px;
+}
+
+.btn-lg {
+    background: var(--clr-primary);
+    color: var(--clr-light);
+    padding: 0.8rem 0.9rem;
+}
+
+.btn-sm {
+    background: var(--clr-secondary);
+    color: var(--clr-light);
+    padding: 0.3rem 0.5rem;
+}
+
+#table {
+    background: var(--clr-dark);
+    color: var(--clr-light);
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#table td,
+#table th {
+    border: 1px solid var(--clr-light);
+    padding: 0.5rem 0;
+    text-align: center;
+}
+
+#table td i {
+    color: var(--clr-secondary);
+}
