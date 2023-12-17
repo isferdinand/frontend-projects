@@ -89,22 +89,26 @@ input {
     font-size: 1.1rem;
     border-radius: 5px;
     padding: 0.4rem 0.2rem;
+    border: 2px solid #ccc;
+    outline: none;
     width: 100%;
 }
 
 .btn {
     border: 0;
-    border-radius: 10px;
+    cursor: pointer;
 }
 
 .btn-lg {
     background: var(--clr-primary);
     color: var(--clr-light);
     padding: 0.8rem 0.9rem;
+    border-radius: 10px;
 }
 
 .btn-sm {
     background: var(--clr-secondary);
+    border-radius: 5px;
     color: var(--clr-light);
     padding: 0.3rem 0.5rem;
 }
